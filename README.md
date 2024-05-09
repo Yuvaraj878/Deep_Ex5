@@ -41,20 +41,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from keras import layers
+from tensorflow.keras.layers import Dense , SimpleRNN
 from keras.models import Sequential
-
 dataset_train = pd.read_csv('trainset.csv')
 dataset_train.columns
 dataset_train.head()
 train_set = dataset_train.iloc[:,1:2].values
 type(train_set)
 train_set.shape
-
 sc = MinMaxScaler(feature_range=(0,1))
 training_set_scaled = sc.fit_transform(train_set)
 training_set_scaled.shape
-
 X_train_array = []
 y_train_array = []
 for i in range(60, 1259):
@@ -62,26 +59,21 @@ for i in range(60, 1259):
   y_train_array.append(training_set_scaled[i,0])
 X_train, y_train = np.array(X_train_array), np.array(y_train_array)
 X_train1 = X_train.reshape((X_train.shape[0], X_train.shape[1],1))
-X_train.shape
 
+X_train.shape
 model = Sequential([
-    SimpleRNN(50, return_sequences=True, input_shape=(x_train.shape[1], 1)),
+    SimpleRNN(50, return_sequences=True, input_shape=(X_train.shape[1], 1)),
     SimpleRNN(50),
     Dense(1)
 ])
-
 print("Name: YUVARAJ.S\nRegister Number: 212222240119")
 model.summary()
-
 model.compile(optimizer='rmsprop', loss='mse', metrics=['accuracy'])
-
 model.fit(X_train1,y_train,epochs=100, batch_size=32)
-
 dataset_test = pd.read_csv('testset.csv')
 test_set = dataset_test.iloc[:,1:2].values
 test_set.shape
 dataset_total = pd.concat((dataset_train['Open'],dataset_test['Open']),axis=0)
-
 inputs = dataset_total.values
 inputs = inputs.reshape(-1,1)
 inputs_scaled=sc.transform(inputs)
@@ -90,11 +82,9 @@ for i in range(60,1384):
   X_test.append(inputs_scaled[i-60:i,0])
 X_test = np.array(X_test)
 X_test = np.reshape(X_test,(X_test.shape[0], X_test.shape[1],1))
-
 X_test.shape
 predicted_stock_price_scaled = model.predict(X_test)
 predicted_stock_price = sc.inverse_transform(predicted_stock_price_scaled)
-
 print("Name: YUVARAJ.S\nRegister Number: 212222240119")
 plt.plot(np.arange(0,1384),inputs, color='black', label = 'Test(Real) Google stock price')
 plt.plot(np.arange(60,1384),predicted_stock_price, color='blue', label = 'Predicted Google stock price')
@@ -103,11 +93,11 @@ plt.xlabel('Time')
 plt.ylabel('Google Stock Price')
 plt.legend()
 plt.show()
-
+print("Name: YUVARAJ.S\nRegister Number: 212222240119")
 print("Name: YUVARAJ.S\nRegister Number: 212222240119")
 plt.plot(history.history['loss'], label='Training Loss')
-plt.plot(history.history['accuracy'], label='Accuracy')
 plt.xlabel('Epochs')
+plt.ylabel('Loss')  
 plt.legend()
 plt.show()
 ```
