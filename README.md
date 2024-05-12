@@ -68,7 +68,7 @@ model = Sequential([
 ])
 print("Name: YUVARAJ.S\nRegister Number: 212222240119")
 model.summary()
-model.compile(optimizer='rmsprop', loss='mse', metrics=['accuracy'])
+model.compile(optimizer='adam', loss='mse')
 model.fit(X_train1,y_train,epochs=100, batch_size=32)
 dataset_test = pd.read_csv('testset.csv')
 test_set = dataset_test.iloc[:,1:2].values
