@@ -108,7 +108,7 @@ plt.show()
 ### Mean Square Error
 ![](./img/2.png)
 ![](./img/3.png)
-![](./img/4.png)
+![](./img/5.png)
 
 ## Result
 Thus a Recurrent Neural Network model for stock price prediction is executed Successfully.
